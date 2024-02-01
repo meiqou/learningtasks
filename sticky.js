@@ -30,4 +30,26 @@ document.addEventListener("DOMContentLoaded", function () {
         var randomIndex = Math.floor(Math.random() * colors.length);
         return colors[randomIndex];
     }
+
+    function addStickyNote() {
+        var message = messageInput.value.trim();
+    
+        if (message !== "") {
+            var stickyNote = document.createElement("div");
+            stickyNote.className = "sticky-note " + getRandomColor();
+            stickyNote.textContent = message;
+            stickyNotesContainer.appendChild(stickyNote);
+    
+            // Save the message to Firebase
+            firebase.database().ref('messages').push({
+                text: message,
+                color: getRandomColor()
+            });
+    
+            messageInput.value = "";
+        } else {
+            alert("Please enter a message before adding a sticky note.");
+        }
+    }
+    
 });
